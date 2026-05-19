@@ -1,0 +1,29 @@
+---
+title: "{{ site.name }}"
+---
+<!doctype html>
+<html lang="{{ site.lang }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | url }}">
+    <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
+    <meta name="description" content="{{ description or site.description }}">
+    <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.name }}{% endif %}">
+    <meta property="og:description" content="{{ description or site.description }}">
+    {% if site.ogImage %}
+    <meta property="og:image" content="{{ site.ogImage | url }}">
+    {% endif %}
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="{{ '/assets/css/common.css' | url }}">
+    {% if css %}
+    <link rel="stylesheet" href="{{ '/assets/css/' + css + '.css' | url }}">
+    {% endif %}
+  </head>
+  <body>
+    {% include "Header.njk" %}
+    {{ content | safe }}
+    {% include "Footer.njk" %}
+    <script src="{{ '/assets/js/app.js' | url }}" defer></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+$tb: 1024px;
+$sp: 767px;
+$sp2: 768px;
+$main: #1c50a1;
+$accent: #da3511;
+$sub: #e6edfe;
+
+@mixin mq {
+  @media screen and (max-width: $sp) {
+    @content;
+  }
+}
+
+@mixin mqtab {
+  @media screen and (min-width: $sp2) and (max-width: $tb) {
+    @content;
+  }
+}

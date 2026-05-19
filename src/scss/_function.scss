@@ -1,0 +1,16 @@
+$baseFontSize: 16;
+
+@function rem($pixels) {
+  @return calc($pixels / $baseFontSize) * 1rem;
+}
+
+@function myClamp($min, $max, $min-view-port: 375, $max-view-port: 1440) {
+  $valiable-part: calc(($max - $min) / ($max-view-port - $min-view-port));
+  $constant: calc(($max - $max-view-port * $valiable-part) / 16);
+  $min-rem: calc($min / 16 * 1rem);
+  $max-rem: calc($max / 16 * 1rem);
+  $variable-rem: calc($constant * 1rem);
+  $variable-vw: calc(100 * $valiable-part * 1vw);
+
+  @return clamp($min-rem, $variable-rem + $variable-vw, $max-rem);
+}

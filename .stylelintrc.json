@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-recommended",
+  "overrides": [
+    {
+      "files": ["_site/**/*.css"],
+      "rules": {
+        "no-empty-source": null,
+        "no-duplicate-selectors": null,
+        "no-descending-specificity": null,
+        "declaration-block-no-duplicate-properties": null,
+        "font-family-no-duplicate-names": null,
+        "font-family-no-missing-generic-family-keyword": null,
+        "declaration-block-no-shorthand-property-overrides": null
+      }
+    }
+  ]
+}

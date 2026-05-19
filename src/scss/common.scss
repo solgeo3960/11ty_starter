@@ -1,0 +1,36 @@
+@use "_reset";
+@use "_config";
+
+.site-header {
+  border-bottom: 1px solid #e5e5e5;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 0;
+  }
+
+  &__brand {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  &__menu {
+    display: flex;
+    gap: 20px;
+  }
+}
+
+.site-footer {
+  margin-top: 80px;
+  padding: 24px 0;
+  border-top: 1px solid #e5e5e5;
+  color: #666;
+  font-size: 14px;
+}
+
+main {
+  padding-top: 72px;
+}

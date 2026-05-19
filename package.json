@@ -1,0 +1,26 @@
+{
+  "name": "11ty-starter",
+  "version": "1.0.0",
+  "description": "Eleventy + Sass static site starter (GitHub Template)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"eleventy --serve --port 3020 --incremental\" \"sass --watch src/scss:_site/assets/css --no-source-map --style compressed\"",
+    "build": "sass src/scss:_site/assets/css --no-source-map --style compressed && eleventy",
+    "lint": "npm run lint:html && npm run lint:css",
+    "lint:html": "eslint \"_site/**/*.html\"",
+    "lint:css": "stylelint \"_site/**/*.css\""
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.5",
+    "concurrently": "^9.2.1",
+    "sass": "^1.97.3"
+  },
+  "devDependencies": {
+    "@html-eslint/eslint-plugin": "^0.34.0",
+    "@html-eslint/parser": "^0.34.0",
+    "eslint": "^9.17.0",
+    "stylelint": "^16.14.0",
+    "stylelint-config-recommended": "^14.0.0"
+  }
+}
