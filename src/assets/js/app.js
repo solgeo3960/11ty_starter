@@ -1,1 +1,7 @@
-// サイト共通の JavaScript をここに記述
+document.addEventListener("DOMContentLoaded", function () {
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+});
