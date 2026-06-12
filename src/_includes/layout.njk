@@ -34,6 +34,9 @@ title: "{{ site.name }}"
     <script src="{{ '/assets/js/pop.js' | url }}"></script>
     <script src="{{ '/assets/js/vendor/gsap.min.js' | url }}"></script>
     <script src="{{ '/assets/js/vendor/ScrollTrigger.min.js' | url }}"></script>
+    {% if js %}
+    <script src="{{ '/assets/js/' + js + '.js' | url }}"></script>
+    {% endif %}
     <script src="{{ '/assets/js/app.js' | url }}" defer></script>
   </body>
 </html>

@@ -1,7 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+  if (typeof gsap === "undefined") {
     return;
   }
 
-  gsap.registerPlugin(ScrollTrigger);
+  if (typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+
+  // トップ FV アニメーション（fv-animation.js）
+  if (typeof window.initFvAnimation === "function" && document.getElementById("fv")) {
+    window.initFvAnimation();
+  }
 });
