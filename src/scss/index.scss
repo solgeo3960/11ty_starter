@@ -1,14 +1,202 @@
-.hero {
-  padding: 80px 0;
+// ─────────────────────────────────────────────
+// 川越 FV（Figma 1920×1080 基準 → % 配置）
+// ─────────────────────────────────────────────
 
-  &__title {
-    font-size: clamp(1.75rem, 4vw, 3rem);
-    line-height: 1.3;
-    margin-bottom: 16px;
+.fv {
+  position: relative;
+  width: 100%;
+  background: #000;
+}
+
+.fv__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+
+  @media screen and (max-width: 767px) {
+    aspect-ratio: 402 / 776;
   }
+}
+
+.fv__scene {
+  position: absolute;
+  inset: 0;
+}
+
+.fv__layer,
+.fv__parts,
+.fv__slide-wrap,
+.fv__slide-bg {
+  position: absolute;
+}
+
+.fv__layer img,
+.fv__parts img,
+.fv__slide-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// 全画面レイヤー
+.fv__layer--aerial,
+.fv__layer--bg02,
+.fv__layer--light {
+  inset: 0;
+}
+
+.fv__layer--bg02 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+// Scene A: エリア名パーツ（parts01）
+.fv__parts {
+  left: 2.55%;
+  top: 9.63%;
+  width: 89.71%;
+  height: 84.02%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.fv__part {
+  position: absolute;
+  height: auto;
+  object-fit: contain;
+}
+
+.fv__part--honkawagoe {
+  left: 0;
+  top: 0;
+  width: 20.96%;
+}
+
+.fv__part--kawagoe {
+  right: 0;
+  bottom: 0;
+  width: 23.43%;
+}
+
+.fv__part--kawagoeshi {
+  left: 0;
+  bottom: 0;
+  width: 25.47%;
+}
+
+.fv__part--genchi {
+  left: 50%;
+  bottom: 33.4%;
+  width: 18.58%;
+  transform: translateX(-50%);
+}
+
+// Scene A: タイトル
+.fv__layer--title {
+  left: 20.99%;
+  top: 29.63%;
+  width: 60.55%;
+  opacity: 0;
+  visibility: hidden;
+
+  img {
+    object-fit: contain;
+  }
+}
+
+// Scene B/C: 横スライド背景
+.fv__slide-wrap {
+  inset: 0;
+  overflow: hidden;
+}
+
+.fv__slide-bg {
+  top: 0;
+  height: 100%;
+  width: 113.49%; // 2179 / 1920
+
+  @media screen and (max-width: 767px) {
+    width: 223.88%; // 900 / 402
+  }
+}
+
+// Scene B/C/D: 縦書きテキスト
+.fv__layer--txt {
+  opacity: 0;
+  visibility: hidden;
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.fv__layer--txt-b {
+  right: 6.56%;
+  top: 11.11%;
+  width: 3.85%;
+  height: 70.93%;
+}
+
+.fv__layer--txt-c {
+  right: 5.42%;
+  top: 11.11%;
+  width: 10.52%;
+  height: 76.2%;
+}
+
+// Scene D
+.fv__layer--perspective {
+  left: 0;
+  top: 1.85%;
+  width: 77.86%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+
+  img {
+    object-fit: cover;
+    object-position: left top;
+  }
+}
+
+.fv__layer--txt-d {
+  right: 8.34%;
+  top: 50%;
+  width: 11.51%;
+  height: 73.24%;
+  transform: translateY(-50%);
+}
+
+// キャプション（右下）
+.fv__caption {
+  position: absolute;
+  right: 0.73%;
+  bottom: 1.3%;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(10px, 0.73vw, 14px);
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 4px #000;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+// GSAP 初期化前のちらつき防止
+.fv:not(.fv--ready) .fv__scene--b,
+.fv:not(.fv--ready) .fv__scene--c,
+.fv:not(.fv--ready) .fv__scene--d {
+  visibility: hidden;
+}
+
+// ── FV 下コンテンツ ──
+.below-fv {
+  padding: 48px 0 80px;
 
   &__lead {
     max-width: 40em;
     color: #444;
+    margin-bottom: 16px;
   }
 }
