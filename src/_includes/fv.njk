@@ -1,0 +1,69 @@
+{# 川越 FV — Figma: 川越FV_260605共有 / fv_pc, fv_sp #}
+<section class="fv" id="fv" aria-label="ファーストビュー">
+  <div class="fv__stage">
+
+    {# ── Scene A: 航空写真 → エリア名パーツ → タイトル ── #}
+    <div class="fv__scene fv__scene--a" data-fv-scene="a">
+      <div class="fv__layer fv__layer--aerial">
+        <img src="{{ '/assets/images/fv/scene-a-aerial.jpg' | url }}" alt="" width="1920" height="1080" decoding="async">
+      </div>
+      <div class="fv__layer fv__layer--bg02">
+        <img src="{{ '/assets/images/fv/scene-a-bg02.jpg' | url }}" alt="" width="2600" height="1460" decoding="async">
+      </div>
+      <div class="fv__parts" data-fv-parts>
+        <img class="fv__part fv__part--honkawagoe" src="{{ '/assets/images/fv/part-honkawagoe.png' | url }}" alt="本川越" width="361" height="134" decoding="async">
+        <img class="fv__part fv__part--kawagoe" src="{{ '/assets/images/fv/part-kawagoe.png' | url }}" alt="川越" width="404" height="258" decoding="async">
+        <img class="fv__part fv__part--kawagoeshi" src="{{ '/assets/images/fv/part-kawagoeshi.png' | url }}" alt="川越市" width="439" height="196" decoding="async">
+        <img class="fv__part fv__part--genchi" src="{{ '/assets/images/fv/part-genchi.png' | url }}" alt="現地" width="320" height="56" decoding="async">
+      </div>
+      <div class="fv__layer fv__layer--title">
+        <img src="{{ '/assets/images/fv/title-special.png' | url }}" alt="川越の「特別」" width="1163" height="243" decoding="async">
+      </div>
+      <p class="fv__caption fv__caption--aerial">航空写真</p>
+    </div>
+
+    {# ── Scene B: 背景スライド + 縦書きテキスト ── #}
+    <div class="fv__scene fv__scene--b" data-fv-scene="b" hidden>
+      <div class="fv__slide-wrap" data-fv-slide-wrap>
+        <picture class="fv__slide-bg fv__slide-bg--02" data-fv-slide-bg="02">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv02-bg-sp.png' | url }}">
+          <img src="{{ '/assets/images/fv/fv02-bg.png' | url }}" alt="" width="2179" height="1080" decoding="async">
+        </picture>
+      </div>
+      <div class="fv__layer fv__layer--txt fv__layer--txt-b">
+        <img src="{{ '/assets/images/fv/txt-b-vertical.png' | url }}" alt="" width="74" height="766" decoding="async">
+      </div>
+      <p class="fv__caption">Image photo</p>
+    </div>
+
+    {# ── Scene C: 背景スライド + 縦書きテキスト ── #}
+    <div class="fv__scene fv__scene--c" data-fv-scene="c" hidden>
+      <div class="fv__slide-wrap" data-fv-slide-wrap>
+        <picture class="fv__slide-bg fv__slide-bg--03" data-fv-slide-bg="03">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv03-bg-sp.png' | url }}">
+          <img src="{{ '/assets/images/fv/fv03-bg.png' | url }}" alt="" width="2179" height="1080" decoding="async">
+        </picture>
+      </div>
+      <div class="fv__layer fv__layer--txt fv__layer--txt-c">
+        <img src="{{ '/assets/images/fv/txt-c-vertical.png' | url }}" alt="" width="202" height="823" decoding="async">
+      </div>
+      <p class="fv__caption">外観完成予定図</p>
+    </div>
+
+    {# ── Scene D: 光 → パース → テキスト ── #}
+    <div class="fv__scene fv__scene--d" data-fv-scene="d" hidden>
+      <picture class="fv__layer fv__layer--light fv__layer--light-pc">
+        <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-light-sp.png' | url }}">
+        <img src="{{ '/assets/images/fv/fv04-light.png' | url }}" alt="" width="1920" height="1080" decoding="async">
+      </picture>
+      <div class="fv__layer fv__layer--perspective">
+        <img src="{{ '/assets/images/fv/fv04-perspective.png' | url }}" alt="" width="1495" height="1080" decoding="async">
+      </div>
+      <div class="fv__layer fv__layer--txt fv__layer--txt-d">
+        <img src="{{ '/assets/images/fv/fv04-text.png' | url }}" alt="" width="221" height="791" decoding="async">
+      </div>
+      <p class="fv__caption">外観完成予定図</p>
+    </div>
+
+  </div>
+</section>

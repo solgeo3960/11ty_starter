@@ -1,14 +1,17 @@
 ---
 layout: layout.njk
 css: index
+js: fv-animation
+bodyId: top
 title: Home
 ---
 
+{% include "fv.njk" %}
+
 <main>
-  <section class="hero">
+  <section class="below-fv">
     <div class="container-lg">
-      <h1 class="hero__title">{{ site.name }}</h1>
-      <p class="hero__lead">{{ site.description }}</p>
+      <p class="below-fv__lead">{{ site.description }}</p>
       <p><a href="{{ '/sample/' | url }}">サンプル下層ページへ</a></p>
     </div>
   </section>
