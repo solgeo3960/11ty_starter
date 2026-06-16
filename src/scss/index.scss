@@ -1,11 +1,15 @@
 // ─────────────────────────────────────────────
 // 川越 FV（Figma 1920×1080 基準 → % 配置）
-// 高さ: ビューポート内に収める（dvh + ヘッダー分オフセット）
+//
+// PC / 横画面: 100dvh でビューポート内に収める
+// スマホ + タブレット縦: Figma SP（402×776）のアスペクト比を優先
 // ─────────────────────────────────────────────
 
 :root {
   // 本番ヘッダー有効時は高さを指定（例: SP 73px）
   --fv-header-height: 0px;
+  // Figma fv_sp の比率
+  --fv-aspect-ratio-sp: 402 / 776;
 }
 
 .fv {
@@ -24,6 +28,21 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+// スマホ + タブレット縦: 画像比率優先（はみ出す場合はスクロール）
+@media screen and (max-width: 767px),
+  screen and (max-width: 1024px) and (orientation: portrait) {
+  .fv {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .fv__stage {
+    aspect-ratio: var(--fv-aspect-ratio-sp);
+    height: auto;
+  }
 }
 
 .fv__scene {
