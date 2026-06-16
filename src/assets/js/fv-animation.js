@@ -16,10 +16,11 @@
     // Scene 01（航空写真 → bg02 → タイトル）
     scene01: {
       delayBeforeBg02: 1.0,    // 航空写真のみ表示してから bg02 へ
-      bg02Duration: 1.8,       // bg02（エリア名含む）のフェードイン
-      delayBeforeTitle: 0,     // タイトル表示前の待機
-      titleDuration: 1.8,      // タイトルのフェードイン
-      holdAfterEnd: 2.0,       // Scene01 終了後の待機
+      bg02Duration: 1.5,       // bg02（エリア名含む）のフェードイン
+      delayBeforeTitle: 0.5,     // タイトル表示前の待機
+      titleDuration: 1.0,      // タイトルのフェードイン
+      holdAfterEnd: 2.0,       // タイトル表示後の待機
+      fadeOutDuration: 0.8,    // Scene01 終了時のフェードアウト
     },
 
     // Scene 02 / 03（背景横スライド + 縦書きテキスト）
@@ -43,7 +44,7 @@
   };
 
   var FV_EASE = {
-    fade: "power2.out",
+    fade: "none",
     slide: "power1.inOut",
     rise: "power2.out",
   };
@@ -111,9 +112,18 @@
 
     tl.to({}, { duration: FV_TIMING.scene01.holdAfterEnd });
 
+    tl.addLabel("scene01-fadeout");
+    tl.to(scenes.a, {
+      autoAlpha: 0,
+      duration: FV_TIMING.scene01.fadeOutDuration,
+      onComplete: function () {
+        hideScene(scenes.a);
+      },
+    });
+
     // ── Scene 02 ──────────────────────────
     tl.addLabel("scene02");
-    addSceneCrossfade(tl, scenes.a, scenes.b, FV_TIMING.sceneCrossfade);
+    addSceneFadeIn(tl, scenes.b, FV_TIMING.sceneCrossfade);
     addSlideScene(tl, layers.slideB, layers.txtB, layers.wrapB);
 
     // ── Scene 03 ──────────────────────────
@@ -179,6 +189,13 @@
       },
     });
     tl.to(toScene, { autoAlpha: 1, duration: duration }, "<");
+  }
+
+  /** 前シーンをフェードアウト済みのとき、次シーンだけフェードイン */
+  function addSceneFadeIn(tl, toScene, duration) {
+    showScene(toScene);
+    gsap.set(toScene, { autoAlpha: 0 });
+    tl.to(toScene, { autoAlpha: 1, duration: duration });
   }
 
   /**
