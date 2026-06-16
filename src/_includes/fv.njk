@@ -2,22 +2,16 @@
 <section class="fv" id="fv" aria-label="ファーストビュー">
   <div class="fv__stage">
 
-    {# ── Scene A: 航空写真 → エリア名パーツ → タイトル ── #}
+    {# ── Scene A: 航空写真 → bg02（エリア名含む） → タイトル ── #}
     <div class="fv__scene fv__scene--a" data-fv-scene="a">
       <div class="fv__layer fv__layer--aerial">
         <img src="{{ '/assets/images/fv/scene-a-aerial.jpg' | url }}" alt="" width="1920" height="1080" decoding="async">
       </div>
       <div class="fv__layer fv__layer--bg02">
-        <img src="{{ '/assets/images/fv/scene-a-bg02.jpg' | url }}" alt="" width="2600" height="1460" decoding="async">
-      </div>
-      <div class="fv__parts" data-fv-parts>
-        <img class="fv__part fv__part--honkawagoe" src="{{ '/assets/images/fv/part-honkawagoe.png' | url }}" alt="本川越" width="361" height="134" decoding="async">
-        <img class="fv__part fv__part--kawagoe" src="{{ '/assets/images/fv/part-kawagoe.png' | url }}" alt="川越" width="404" height="258" decoding="async">
-        <img class="fv__part fv__part--kawagoeshi" src="{{ '/assets/images/fv/part-kawagoeshi.png' | url }}" alt="川越市" width="439" height="196" decoding="async">
-        <img class="fv__part fv__part--genchi" src="{{ '/assets/images/fv/part-genchi.png' | url }}" alt="現地" width="320" height="56" decoding="async">
+        <img src="{{ '/assets/images/fv/scene-a-bg02.png' | url }}" alt="" width="1920" height="1080" decoding="async">
       </div>
       <div class="fv__layer fv__layer--title">
-        <img src="{{ '/assets/images/fv/title-special.png' | url }}" alt="川越の「特別」" width="1163" height="243" decoding="async">
+        <img src="{{ '/assets/images/fv/title-special.svg' | url }}" alt="川越の「特別」" width="1163" height="243" decoding="async">
       </div>
       <p class="fv__caption fv__caption--aerial">航空写真</p>
     </div>

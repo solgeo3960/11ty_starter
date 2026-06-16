@@ -13,12 +13,12 @@
   // 調整用パラメータ（ここを編集）
   // ─────────────────────────────────────────
   var FV_TIMING = {
-    // Scene 01（航空写真 → パーツ → タイトル）
+    // Scene 01（航空写真 → bg02 → タイトル）
     scene01: {
-      delayBeforeParts: 1.0,   // 航空写真のみ表示してからパーツへ
-      partsDuration: 0.8,      // bg02 + エリア名のフェードイン
-      delayBeforeTitle: 1.0,   // タイトル表示前の待機
-      titleDuration: 0.8,      // タイトルのフェードイン
+      delayBeforeBg02: 1.0,    // 航空写真のみ表示してから bg02 へ
+      bg02Duration: 1.8,       // bg02（エリア名含む）のフェードイン
+      delayBeforeTitle: 0,     // タイトル表示前の待機
+      titleDuration: 1.8,      // タイトルのフェードイン
       holdAfterEnd: 2.0,       // Scene01 終了後の待機
     },
 
@@ -66,7 +66,6 @@
 
     var layers = {
       bg02: fv.querySelector(".fv__layer--bg02"),
-      parts: fv.querySelector("[data-fv-parts]"),
       title: fv.querySelector(".fv__layer--title"),
       slideB: fv.querySelector('[data-fv-scene="b"] [data-fv-slide-bg]'),
       slideC: fv.querySelector('[data-fv-scene="c"] [data-fv-slide-bg]'),
@@ -94,12 +93,12 @@
 
     // ── Scene 01 ──────────────────────────
     tl.addLabel("scene01");
-    tl.to({}, { duration: FV_TIMING.scene01.delayBeforeParts });
+    tl.to({}, { duration: FV_TIMING.scene01.delayBeforeBg02 });
 
-    tl.addLabel("scene01-parts");
-    tl.to([layers.bg02, layers.parts], {
+    tl.addLabel("scene01-bg02");
+    tl.to(layers.bg02, {
       autoAlpha: 1,
-      duration: FV_TIMING.scene01.partsDuration,
+      duration: FV_TIMING.scene01.bg02Duration,
     });
 
     tl.to({}, { duration: FV_TIMING.scene01.delayBeforeTitle });

@@ -25,14 +25,12 @@
 }
 
 .fv__layer,
-.fv__parts,
 .fv__slide-wrap,
 .fv__slide-bg {
   position: absolute;
 }
 
 .fv__layer img,
-.fv__parts img,
 .fv__slide-bg img {
   display: block;
   width: 100%;
@@ -50,47 +48,6 @@
 .fv__layer--bg02 {
   opacity: 0;
   visibility: hidden;
-}
-
-// Scene A: エリア名パーツ（parts01）
-.fv__parts {
-  left: 2.55%;
-  top: 9.63%;
-  width: 89.71%;
-  height: 84.02%;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.fv__part {
-  position: absolute;
-  height: auto;
-  object-fit: contain;
-}
-
-.fv__part--honkawagoe {
-  left: 0;
-  top: 0;
-  width: 20.96%;
-}
-
-.fv__part--kawagoe {
-  right: 0;
-  bottom: 0;
-  width: 23.43%;
-}
-
-.fv__part--kawagoeshi {
-  left: 0;
-  bottom: 0;
-  width: 25.47%;
-}
-
-.fv__part--genchi {
-  left: 50%;
-  bottom: 33.4%;
-  width: 18.58%;
-  transform: translateX(-50%);
 }
 
 // Scene A: タイトル
