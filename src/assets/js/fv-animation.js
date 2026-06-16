@@ -5,7 +5,10 @@
  *
  * タイミングの調整は FV_TIMING だけ触れば OK です（単位: 秒）。
  * イージングは FV_EASE を変更してください。
+ *
+ * @format
  */
+
 (function () {
   "use strict";
 
@@ -15,18 +18,22 @@
   var FV_TIMING = {
     // Scene 01（航空写真 → bg02 → タイトル）
     scene01: {
-      delayBeforeBg02: 1.0,    // 航空写真のみ表示してから bg02 へ
-      bg02Duration: 1.5,       // bg02（エリア名含む）のフェードイン
-      delayBeforeTitle: 0.5,     // タイトル表示前の待機
-      titleDuration: 1.0,      // タイトルのフェードイン
-      holdAfterEnd: 2.0,       // タイトル表示後の待機
-      fadeOutDuration: 0.8,    // Scene01 終了時のフェードアウト
+      delayBeforeBg02: 1.0, // 航空写真のみ表示してから bg02 へ
+      bg02Duration: 2.0, // bg02（エリア名含む）のフェードイン
+      delayBeforeTitle: 0.5, // タイトル表示前の待機
+      titleDuration: 1.0, // タイトルのフェードイン
+      holdAfterEnd: 2.0, // タイトル表示後の待機
+      fadeOutDuration: 1.5, // Scene01 終了時のフェードアウト
+    },
+
+    scene02: {
+      fadeInDuration: 2.0, // Scene02 フェードイン（スライドと同時開始）
     },
 
     // Scene 02 / 03（背景横スライド + 縦書きテキスト）
     slideScene: {
-      bgDuration: 4.0,         // 背景スライド全体の時間
-      textDuration: 0.8,       // テキストのフェードイン時間
+      bgDuration: 4.0, // 背景スライド全体の時間
+      textDuration: 4.0, // テキストのフェードイン時間
       // テキストが完了する背景の進捗（0〜1）。Figma 指示: 半分くらい
       textCompleteAtBgProgress: 0.5,
     },
@@ -34,8 +41,8 @@
     // Scene 04（光 → パース → テキスト）
     scene04: {
       delayBeforePerspective: 1.0,
-      perspectiveDuration: 0.8,
-      delayBeforeText: 0.4,
+      perspectiveDuration: 4.0,
+      delayBeforeText: 0,
       textDuration: 0.8,
     },
 
@@ -45,8 +52,8 @@
 
   var FV_EASE = {
     fade: "none",
-    slide: "power1.inOut",
-    rise: "power2.out",
+    slide: "none",
+    rise: "none",
   };
 
   // ─────────────────────────────────────────
@@ -123,13 +130,15 @@
 
     // ── Scene 02 ──────────────────────────
     tl.addLabel("scene02");
-    addSceneFadeIn(tl, scenes.b, FV_TIMING.sceneCrossfade);
-    addSlideScene(tl, layers.slideB, layers.txtB, layers.wrapB);
+    addSceneFadeIn(tl, scenes.b, FV_TIMING.scene02.fadeInDuration);
+    // フェードインと同時に背景スライド開始
+    addSlideScene(tl, layers.slideB, layers.txtB, layers.wrapB, "<");
 
     // ── Scene 03 ──────────────────────────
     tl.addLabel("scene03");
     addSceneCrossfade(tl, scenes.b, scenes.c, FV_TIMING.sceneCrossfade);
-    addSlideScene(tl, layers.slideC, layers.txtC, layers.wrapC);
+    // クロスフェードと同時に背景スライド開始
+    addSlideScene(tl, layers.slideC, layers.txtC, layers.wrapC, "<");
 
     // ── Scene 04 ──────────────────────────
     tl.addLabel("scene04");
@@ -201,23 +210,29 @@
   /**
    * 横スライド背景 + 縦書きテキスト
    * Figma 指示: 背景は左→右 / テキストはふわっと（背景半分で完了）
+   *
+   * @param {string} [position=">"] GSAP のタイムライン位置（Scene02/03 は "<" でフェードと同時）
    */
-  function addSlideScene(tl, slideBg, textEl, wrapEl) {
+  function addSlideScene(tl, slideBg, textEl, wrapEl, position) {
     var t = FV_TIMING.slideScene;
     var distance = calcSlideDistance(slideBg, wrapEl);
+    var startAt = position || ">";
 
     gsap.set(slideBg, { x: distance });
     gsap.set(textEl, { autoAlpha: 0 });
 
-    tl.to(slideBg, {
-      x: 0,
-      duration: t.bgDuration,
-      ease: FV_EASE.slide,
-    });
+    tl.to(
+      slideBg,
+      {
+        x: 0,
+        duration: t.bgDuration,
+        ease: FV_EASE.slide,
+      },
+      startAt,
+    );
 
     // 背景が textCompleteAtBgProgress 進んだ時点でテキスト表示完了
-    var textStart =
-      t.bgDuration * t.textCompleteAtBgProgress - t.textDuration;
+    var textStart = t.bgDuration * t.textCompleteAtBgProgress - t.textDuration;
     if (textStart < 0) textStart = 0;
 
     tl.to(
@@ -226,7 +241,7 @@
         autoAlpha: 1,
         duration: t.textDuration,
       },
-      "<+=" + textStart
+      "<+=" + textStart,
     );
   }
 
