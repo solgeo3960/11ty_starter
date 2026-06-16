@@ -1,22 +1,29 @@
 // ─────────────────────────────────────────────
 // 川越 FV（Figma 1920×1080 基準 → % 配置）
+// 高さ: ビューポート内に収める（dvh + ヘッダー分オフセット）
 // ─────────────────────────────────────────────
+
+:root {
+  // 本番ヘッダー有効時は高さを指定（例: SP 73px）
+  --fv-header-height: 0px;
+}
 
 .fv {
   position: relative;
   width: 100%;
   background: #000;
+  // 100vh → 100dvh の順でフォールバック（モバイルのアドレスバー対策）
+  height: calc(100vh - var(--fv-header-height));
+  height: calc(100dvh - var(--fv-header-height));
+  max-height: calc(100dvh - var(--fv-header-height));
+  overflow: hidden;
 }
 
 .fv__stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 1920 / 1080;
+  height: 100%;
   overflow: hidden;
-
-  @media screen and (max-width: 767px) {
-    aspect-ratio: 402 / 776;
-  }
 }
 
 .fv__scene {
@@ -106,7 +113,7 @@
 // Scene D
 .fv__layer--perspective {
   left: 0;
-  top: 1.85%;
+  top:0;
   width: 77.86%;
   height: 100%;
   opacity: 0;
