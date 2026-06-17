@@ -56,6 +56,175 @@
     rise: "none",
   };
 
+  var FV_LOADER = {
+    minDuration: 800, // ローダー最低表示時間（ms）
+    maxWait: 30000, // 画像待ちタイムアウト（ms）
+    hideDuration: 0.8, // ローダー退場（秒）
+  };
+
+  // ─────────────────────────────────────────
+  // 画像プリロード → アニメーション開始
+  // ─────────────────────────────────────────
+  function bootstrapFv() {
+    var fv = document.getElementById("fv");
+    var loader = document.getElementById("fv-loader");
+
+    if (!fv || typeof gsap === "undefined") {
+      finishWithoutLoader(loader);
+      return;
+    }
+
+    document.body.classList.add("is-fv-loading");
+    if (loader) {
+      gsap.set(loader, { autoAlpha: 1 });
+    }
+
+    var urls = collectFvImageUrls(fv);
+    var startTime = Date.now();
+
+    preloadImages(urls, updateLoaderProgress).then(function () {
+      var elapsed = Date.now() - startTime;
+      var remaining = Math.max(0, FV_LOADER.minDuration - elapsed);
+
+      window.setTimeout(function () {
+        hideLoader(loader).then(initFvAnimation);
+      }, remaining);
+    });
+  }
+
+  function finishWithoutLoader(loader) {
+    document.body.classList.remove("is-fv-loading");
+    if (loader) {
+      loader.remove();
+    }
+    initFvAnimation();
+  }
+
+  function resolvePictureUrl(picture) {
+    var sources = picture.querySelectorAll("source");
+    var i;
+
+    for (i = 0; i < sources.length; i++) {
+      var media = sources[i].getAttribute("media");
+      if (media && window.matchMedia(media).matches) {
+        return sources[i].getAttribute("srcset");
+      }
+    }
+
+    var img = picture.querySelector("img");
+    return img ? img.getAttribute("src") : null;
+  }
+
+  function collectFvImageUrls(fv) {
+    var urls = [];
+    var isSp = window.matchMedia("(max-width: 767px)").matches;
+
+    fv.querySelectorAll("picture").forEach(function (picture) {
+      var url = resolvePictureUrl(picture);
+      if (url) {
+        urls.push(url);
+      }
+    });
+
+    if (isSp) {
+      fv.querySelectorAll(".fv__layer--fv04-bg img").forEach(function (img) {
+        var src = img.getAttribute("src");
+        if (src) {
+          urls.push(src);
+        }
+      });
+    }
+
+    return urls.filter(function (url, index, list) {
+      return list.indexOf(url) === index;
+    });
+  }
+
+  function preloadImages(urls, onProgress) {
+    return new Promise(function (resolve) {
+      if (!urls.length) {
+        if (onProgress) {
+          onProgress(1);
+        }
+        resolve();
+        return;
+      }
+
+      var loaded = 0;
+      var total = urls.length;
+      var settled = false;
+
+      function done() {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        resolve();
+      }
+
+      var timeout = window.setTimeout(done, FV_LOADER.maxWait);
+
+      function tick() {
+        loaded++;
+        if (onProgress) {
+          onProgress(loaded / total);
+        }
+        if (loaded >= total) {
+          window.clearTimeout(timeout);
+          done();
+        }
+      }
+
+      urls.forEach(function (url) {
+        var img = new Image();
+        img.onload = tick;
+        img.onerror = tick;
+        img.src = url;
+      });
+    });
+  }
+
+  function updateLoaderProgress(ratio) {
+    var loader = document.getElementById("fv-loader");
+    if (!loader) {
+      return;
+    }
+
+    var pct = Math.min(100, Math.round(ratio * 100));
+    var bar = loader.querySelector(".fv-loader__progress-bar");
+    var progress = loader.querySelector(".fv-loader__progress");
+
+    if (bar) {
+      bar.style.width = pct + "%";
+    }
+    if (progress) {
+      progress.setAttribute("aria-valuenow", String(pct));
+    }
+  }
+
+  function hideLoader(loader) {
+    return new Promise(function (resolve) {
+      document.body.classList.remove("is-fv-loading");
+
+      if (!loader) {
+        resolve();
+        return;
+      }
+
+      loader.setAttribute("aria-busy", "false");
+
+      gsap.to(loader, {
+        autoAlpha: 0,
+        duration: FV_LOADER.hideDuration,
+        ease: "power2.inOut",
+        onComplete: function () {
+          loader.remove();
+          resolve();
+        },
+      });
+    });
+  }
+
   // ─────────────────────────────────────────
   // 初期化
   // ─────────────────────────────────────────
@@ -255,5 +424,6 @@
     gsap.set(slideBg, { x: calcSlideDistance(slideBg, wrapEl) });
   }
 
+  window.bootstrapFv = bootstrapFv;
   window.initFvAnimation = initFvAnimation;
 })();

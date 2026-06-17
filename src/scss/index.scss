@@ -10,6 +10,276 @@
   --fv-header-height: 0px;
   // Figma fv_sp の比率
   --fv-aspect-ratio-sp: 402 / 776;
+  // ローダー（川越テーマ）
+  --fv-loader-bg: #191917;
+  --fv-loader-gold: #c4ad82;
+  --fv-loader-gold-dim: rgba(196, 173, 130, 0.35);
+}
+
+body.is-fv-loading {
+  overflow: hidden;
+}
+
+// ─────────────────────────────────────────────
+// FV ローダー（画像プリロード中・テキストなし）
+// ─────────────────────────────────────────────
+$floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='16' viewBox='0 0 32 16'%3E%3Cpath d='M8 0 L16 8 L8 16 L0 8 Z M24 0 L32 8 L24 16 L16 8 Z' fill='none' stroke='%23b8a078' stroke-width='0.5' opacity='0.55'/%3E%3C/svg%3E");
+
+.fv-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 45%, rgba(184, 160, 120, 0.07), transparent 65%),
+    radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.45), transparent 55%),
+    linear-gradient(180deg, #1e1d1a 0%, var(--fv-loader-bg) 42%, #121110 100%);
+}
+
+.fv-loader__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
+}
+
+.fv-loader__band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background-image: $floader-hishimon;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 32px 16px;
+  opacity: 0.7;
+  pointer-events: none;
+
+  &--top {
+    top: 0;
+    mask-image: linear-gradient(180deg, #000 30%, transparent);
+  }
+
+  &--bottom {
+    bottom: 0;
+    transform: scaleY(-1);
+    mask-image: linear-gradient(180deg, #000 30%, transparent);
+  }
+}
+
+.fv-loader__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(220px, 58vw);
+}
+
+.fv-loader__frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+  margin-bottom: 36px;
+}
+
+.fv-loader__corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--fv-loader-gold);
+  border-style: solid;
+  opacity: 0.55;
+
+  &--tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  &--tr {
+    top: 0;
+    right: 0;
+    border-width: 1px 1px 0 0;
+  }
+
+  &--bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 1px 1px;
+  }
+
+  &--br {
+    right: 0;
+    bottom: 0;
+    border-width: 0 1px 1px 0;
+  }
+}
+
+.fv-loader__emblem {
+  position: relative;
+  width: 88px;
+  height: 88px;
+}
+
+.fv-loader__emblem-orbit {
+  position: absolute;
+  inset: -18px;
+  border: 1px solid rgba(196, 173, 130, 0.12);
+  border-radius: 50%;
+  animation: fv-loader-orbit 12s linear infinite;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    margin-left: -2.5px;
+    background: var(--fv-loader-gold);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(196, 173, 130, 0.8);
+    opacity: 0.85;
+  }
+}
+
+.fv-loader__emblem-ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border: 1px solid var(--fv-loader-gold-dim);
+  transform: rotate(45deg);
+
+  &--outer {
+    width: 76px;
+    height: 76px;
+    animation: fv-loader-pulse 3.2s ease-in-out infinite;
+  }
+
+  &--inner {
+    width: 52px;
+    height: 52px;
+    border-color: rgba(196, 173, 130, 0.5);
+    animation: fv-loader-pulse 3.2s ease-in-out 0.6s infinite;
+  }
+}
+
+.fv-loader__emblem-core {
+  position: absolute;
+  inset: 0;
+  width: 28px;
+  height: 28px;
+  margin: auto;
+  background: linear-gradient(135deg, rgba(196, 173, 130, 0.25), rgba(196, 173, 130, 0.05));
+  border: 1px solid rgba(196, 173, 130, 0.65);
+  box-shadow:
+    0 0 24px rgba(196, 173, 130, 0.15),
+    inset 0 0 12px rgba(255, 255, 255, 0.04);
+  transform: rotate(45deg);
+  animation: fv-loader-core 3.2s ease-in-out infinite;
+}
+
+.fv-loader__progress {
+  width: 100%;
+}
+
+.fv-loader__progress-track {
+  position: relative;
+  height: 1px;
+  background: rgba(196, 173, 130, 0.15);
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    border: 1px solid rgba(196, 173, 130, 0.45);
+    transform: rotate(45deg);
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+}
+
+.fv-loader__progress-bar {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196, 173, 130, 0.35) 15%,
+    var(--fv-loader-gold) 50%,
+    rgba(196, 173, 130, 0.35) 85%,
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(196, 173, 130, 0.35);
+  transition: width 0.35s ease-out;
+}
+
+@keyframes fv-loader-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fv-loader-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: rotate(45deg) scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+@keyframes fv-loader-core {
+  0%,
+  100% {
+    opacity: 0.7;
+    box-shadow:
+      0 0 16px rgba(196, 173, 130, 0.1),
+      inset 0 0 8px rgba(255, 255, 255, 0.03);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 28px rgba(196, 173, 130, 0.22),
+      inset 0 0 14px rgba(255, 255, 255, 0.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fv-loader__emblem-orbit,
+  .fv-loader__emblem-ring,
+  .fv-loader__emblem-core {
+    animation: none;
+  }
+
+  .fv-loader__progress-bar {
+    transition: none;
+  }
 }
 
 .fv {

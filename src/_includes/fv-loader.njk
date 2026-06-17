@@ -1,0 +1,28 @@
+{# FV 画像プリロード用ローダー（テキストなし・川越テーマ） #}
+<div class="fv-loader" id="fv-loader" role="status" aria-live="polite" aria-busy="true" aria-label="読み込み中">
+  <div class="fv-loader__grain" aria-hidden="true"></div>
+  <div class="fv-loader__band fv-loader__band--top" aria-hidden="true"></div>
+  <div class="fv-loader__band fv-loader__band--bottom" aria-hidden="true"></div>
+
+  <div class="fv-loader__inner">
+    <div class="fv-loader__frame" aria-hidden="true">
+      <span class="fv-loader__corner fv-loader__corner--tl"></span>
+      <span class="fv-loader__corner fv-loader__corner--tr"></span>
+      <span class="fv-loader__corner fv-loader__corner--bl"></span>
+      <span class="fv-loader__corner fv-loader__corner--br"></span>
+
+      <div class="fv-loader__emblem">
+        <span class="fv-loader__emblem-orbit"></span>
+        <span class="fv-loader__emblem-ring fv-loader__emblem-ring--outer"></span>
+        <span class="fv-loader__emblem-ring fv-loader__emblem-ring--inner"></span>
+        <span class="fv-loader__emblem-core"></span>
+      </div>
+    </div>
+
+    <div class="fv-loader__progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="fv-loader__progress-track">
+        <div class="fv-loader__progress-bar"></div>
+      </div>
+    </div>
+  </div>
+</div>

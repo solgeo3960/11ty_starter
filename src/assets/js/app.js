@@ -7,8 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.registerPlugin(ScrollTrigger);
   }
 
-  // トップ FV アニメーション（fv-animation.js）
-  if (typeof window.initFvAnimation === "function" && document.getElementById("fv")) {
+  // トップ FV（画像プリロード → アニメーション開始）
+  if (typeof window.bootstrapFv === "function" && document.getElementById("fv")) {
+    window.bootstrapFv();
+  } else if (typeof window.initFvAnimation === "function" && document.getElementById("fv")) {
     window.initFvAnimation();
   }
 });
