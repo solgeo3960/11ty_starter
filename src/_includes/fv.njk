@@ -6,19 +6,19 @@
     <div class="fv__scene fv__scene--a" data-fv-scene="a">
       <div class="fv__layer fv__layer--aerial">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/scene-a-bg-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/scene-a-aerial_sp.png' | url }}">
           <img src="{{ '/assets/images/fv/scene-a-aerial.jpg' | url }}" alt="" width="1920" height="1080" decoding="async">
         </picture>
       </div>
       <div class="fv__layer fv__layer--bg02">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/scene-a-bg02-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/scene-a-bg-sp.png' | url }}">
           <img src="{{ '/assets/images/fv/scene-a-bg02.png' | url }}" alt="" width="1920" height="1080" decoding="async">
         </picture>
       </div>
       <div class="fv__layer fv__layer--title">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/title-special-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/title-special_sp.svg' | url }}">
           <img src="{{ '/assets/images/fv/title-special.svg' | url }}" alt="川越の「特別」" width="1163" height="243" decoding="async">
         </picture>
       </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="fv__layer fv__layer--txt fv__layer--txt-b">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-b-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-b-sp.svg' | url }}">
           <img src="{{ '/assets/images/fv/txt-b-vertical.svg' | url }}" alt="" width="74" height="766" decoding="async">
         </picture>
       </div>
@@ -52,31 +52,34 @@
       </div>
       <div class="fv__layer fv__layer--txt fv__layer--txt-c">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-c-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-c-sp.svg' | url }}">
           <img src="{{ '/assets/images/fv/txt-c-vertical.svg' | url }}" alt="" width="202" height="823" decoding="async">
         </picture>
       </div>
       <p class="fv__caption">外観完成予定図</p>
     </div>
 
-    {# ── Scene D: 光 → パース → テキスト ── #}
+    {# ── Scene D: 背景 → 建物 → 光 → テキスト ── #}
     <div class="fv__scene fv__scene--d" data-fv-scene="d" hidden>
       <div class="fv__layer fv__layer--fv04-bg" aria-hidden="true">
-        <img src="{{ '/assets/images/fv/fv04-bg-sp.png' | url }}" alt="" width="868" height="1022" decoding="async">
+        <picture>
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-bg_sp.png' | url }}">
+          <img src="{{ '/assets/images/fv/fv04-bg.png' | url }}" alt="" width="1920" height="1080" decoding="async">
+        </picture>
       </div>
-      <picture class="fv__layer fv__layer--light fv__layer--light-pc">
-        <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-light-sp.png' | url }}">
-        <img src="{{ '/assets/images/fv/fv04-light.png' | url }}" alt="" width="1920" height="1080" decoding="async">
-      </picture>
       <div class="fv__layer fv__layer--perspective">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-perspective-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-perspective_sp.png' | url }}">
           <img src="{{ '/assets/images/fv/fv04-perspective.png' | url }}" alt="" width="1495" height="1080" decoding="async">
         </picture>
       </div>
+      <picture class="fv__layer fv__layer--light">
+        <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/FV04_light_sp.png' | url }}">
+        <img src="{{ '/assets/images/fv/FV04_light.png' | url }}" alt="" width="775" height="748" decoding="async">
+      </picture>
       <div class="fv__layer fv__layer--txt fv__layer--txt-d">
         <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-d-sp.png' | url }}">
+          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-text_sp.svg' | url }}">
           <img src="{{ '/assets/images/fv/fv04-text.svg' | url }}" alt="" width="221" height="791" decoding="async">
         </picture>
       </div>

@@ -1,15 +1,14 @@
 // ─────────────────────────────────────────────
 // 川越 FV（Figma 1920×1080 基準 → % 配置）
 //
-// PC / 横画面: 100dvh でビューポート内に収める
-// スマホ + タブレット縦: Figma SP（402×776）のアスペクト比を優先
+// PC（768px〜）: 横幅いっぱい + 16:9 の成り行き高さ
+// スマホ（〜767px）: 全画面（100dvh）
 // ─────────────────────────────────────────────
 
 :root {
   // 本番ヘッダー有効時は高さを指定（例: SP 73px）
   --fv-header-height: 0px;
-  // Figma fv_sp の比率
-  --fv-aspect-ratio-sp: 402 / 776;
+  --fv-aspect-ratio-pc: 1920 / 1080;
   // ローダー（川越テーマ）
   --fv-loader-bg: #191917;
   --fv-loader-gold: #c4ad82;
@@ -286,32 +285,37 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   position: relative;
   width: 100%;
   background: #000;
-  // 100vh → 100dvh の順でフォールバック（モバイルのアドレスバー対策）
-  height: calc(100vh - var(--fv-header-height));
-  height: calc(100dvh - var(--fv-header-height));
-  max-height: calc(100dvh - var(--fv-header-height));
   overflow: hidden;
 }
 
 .fv__stage {
   position: relative;
   width: 100%;
-  height: 100%;
   overflow: hidden;
 }
 
-// スマホ + タブレット縦: 画像比率優先（はみ出す場合はスクロール）
-@media screen and (max-width: 767px),
-  screen and (max-width: 1024px) and (orientation: portrait) {
+// PC: 横幅いっぱい・高さは 16:9 で成り行き
+@media screen and (min-width: 768px) {
   .fv {
     height: auto;
     max-height: none;
-    overflow: visible;
   }
 
   .fv__stage {
-    aspect-ratio: var(--fv-aspect-ratio-sp);
     height: auto;
+    aspect-ratio: var(--fv-aspect-ratio-pc);
+  }
+}
+
+// スマホ: 全画面
+@media screen and (max-width: 767px) {
+  .fv {
+    height: calc(100dvh - var(--fv-header-height));
+    max-height: calc(100dvh - var(--fv-header-height));
+  }
+
+  .fv__stage {
+    height: 100%;
   }
 }
 
@@ -345,11 +349,13 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 // 全画面レイヤー
 .fv__layer--aerial,
 .fv__layer--bg02,
+.fv__layer--fv04-bg,
 .fv__layer--light {
   inset: 0;
 }
 
-.fv__layer--bg02 {
+.fv__layer--bg02,
+.fv__layer--light {
   opacity: 0;
   visibility: hidden;
 }
@@ -359,10 +365,18 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   left: 20.99%;
   top: 29.63%;
   width: 60.55%;
+  height: auto;
   opacity: 0;
   visibility: hidden;
 
+  picture {
+    width: 100%;
+    height: auto;
+  }
+
   img {
+    width: 100%;
+    height: auto;
     object-fit: contain;
   }
 }
@@ -379,7 +393,8 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   width: 113.49%; // 2179 / 1920
 
   @media screen and (max-width: 767px) {
-    width: 223.88%; // 900 / 402
+    width: auto;
+    aspect-ratio: 900 / 776;
   }
 }
 
@@ -387,34 +402,65 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 .fv__layer--txt {
   opacity: 0;
   visibility: hidden;
+}
 
-  img {
-    object-fit: contain;
+@media screen and (min-width: 768px) {
+  .fv__layer--txt {
+    picture {
+      width: 100%;
+      height: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+    }
   }
 }
 
 .fv__layer--txt-b {
   right: 6.56%;
   top: 11.11%;
+  bottom: 17.96%;
   width: 3.85%;
-  height: 70.93%;
+  height: auto;
 }
 
 .fv__layer--txt-c {
   right: 5.42%;
   top: 11.11%;
+  bottom: 12.69%;
   width: 10.52%;
-  height: 76.2%;
+  height: auto;
 }
 
-// Scene D
+// Scene D: 背景
+.fv__layer--fv04-bg {
+  z-index: 0;
+
+  picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    object-fit: cover;
+  }
+}
+
+// Scene D: 建物
 .fv__layer--perspective {
   left: 0;
   top:0;
   width: 77.86%;
   height: 100%;
+  z-index: 1;
   opacity: 0;
   visibility: hidden;
+  z-index: 3;
 
   img {
     object-fit: cover;
@@ -422,12 +468,24 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   }
 }
 
+.fv__layer--light {
+  z-index: 2;
+  pointer-events: none;
+  width: 40.364583333%;
+  height: auto;
+  img{
+    height: auto;
+  }
+}
+
 .fv__layer--txt-d {
   right: 8.34%;
-  top: 50%;
+  top: 13.38%;
+  bottom: 13.38%;
   width: 11.51%;
-  height: 73.24%;
-  transform: translateY(-50%);
+  height: auto;
+  z-index: 3;
+  transform: none;
 }
 
 // キャプション（右下）
@@ -442,11 +500,6 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   text-shadow: 0 0 4px #000;
   white-space: nowrap;
   z-index: 10;
-}
-
-// Scene D: SP 専用背景（PC では非表示）
-.fv__layer--fv04-bg {
-  display: none;
 }
 
 // GSAP 初期化前のちらつき防止
@@ -468,16 +521,6 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     height: 100%;
   }
 
-  .fv__layer--bg02 {
-    inset: auto;
-    top: 23.84%;
-    right: 0;
-    bottom: 9.28%;
-    left: 0;
-    width: 100%;
-    height: auto;
-  }
-
   .fv__layer--title {
     left: 3.48%;
     right: 3.48%;
@@ -485,6 +528,8 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     width: auto;
     height: auto;
     aspect-ratio: 574 / 294;
+    max-height: 20vh;
+    margin: 0 auto;
   }
 
   // bg02 書き出しにキャプション含むため SP では HTML キャプションを非表示
@@ -492,25 +537,23 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     display: none;
   }
 
-  // Scene B/C: スライド背景内の画像トリミング
-  .fv__slide-bg--02 img {
-    position: absolute;
-    width: 184.1%;
-    height: 147.56%;
-    left: -32.3%;
-    top: -13.34%;
-    max-width: none;
-    object-fit: cover;
+  // Scene B/C: スライド背景 — 高さいっぱい・画像比率に合わせた幅
+  .fv__slide-bg--02,
+  .fv__slide-bg--03 {
+    display: block;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 900 / 776;
   }
 
+  .fv__slide-bg--02 img,
   .fv__slide-bg--03 img {
     position: absolute;
-    width: 228.06%;
-    height: 110.44%;
-    left: -64.03%;
-    top: 0;
-    max-width: none;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: left center;
   }
 
   // Scene B/C: 横書きテキスト（中央寄せ）
@@ -556,10 +599,21 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     }
   }
 
-  // Scene D
+  // Scene D: 上にテキスト余白・建物は下揃え・上下は切らない
+  .fv__scene--d {
+    --fv-sp-d-header: clamp(100px, 20%, 168px);
+    overflow: hidden;
+  }
+
   .fv__layer--fv04-bg {
     display: block;
     inset: 0;
+
+    picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
     img {
       position: absolute;
@@ -567,6 +621,7 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center bottom;
     }
   }
 
@@ -575,43 +630,59 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     left: 0;
     top: 0;
     width: 100%;
-    height: 43.17%; // 335 / 776
+    height: auto;
+    max-height: 45%;
     overflow: hidden;
+    pointer-events: none;
 
     img {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 188.06%; // 100% + 88.06%
-      height: 151.94%; // 509 / 335
-      max-width: none;
-      object-fit: cover;
+      position: relative;
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: left top;
     }
   }
 
   .fv__layer--perspective {
+    top: var(--fv-sp-d-header);
+    right: 0;
+    bottom: 0;
     left: 0;
-    top: 7.86%; // 61 / 776
     width: 100%;
-    height: 92.14%; // 715 / 776
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 
-    img {
-      position: absolute;
-      inset: 0;
+    picture {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
       width: 100%;
       height: 100%;
-      transform: none;
-      object-fit: cover;
-      object-position: center bottom;
+    }
+
+    img {
+      position: relative;
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      // max-height: 100%;
+      object-fit: contain;
+      object-position: bottom center;
     }
   }
 
   .fv__layer--txt-d {
+    top: clamp(12px, 3.5%, 28px);
     right: auto;
-    left: 4.98%; // 20 / 402
-    top: 4.38%; // 34 / 776
+    left: 5%;
     width: auto;
     height: auto;
+    z-index: 4;
     transform: none;
 
     picture {
@@ -622,7 +693,7 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
     img {
       width: auto;
       height: auto;
-      max-width: 90%;
+      max-width: min(90vw, 360px);
       object-fit: contain;
     }
   }

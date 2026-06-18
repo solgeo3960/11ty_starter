@@ -38,11 +38,14 @@
       textCompleteAtBgProgress: 0.5,
     },
 
-    // Scene 04（光 → パース → テキスト）
+    // Scene 04（パース → 光 + テキスト）
     scene04: {
       delayBeforePerspective: 1.0,
       perspectiveDuration: 4.0,
-      delayBeforeText: 0,
+      // パース完了後の待機（光・テキストは個別に調整可）
+      delayBeforeLight: 0.4,
+      lightDuration: 0.8,
+      delayBeforeText: 0.4,
       textDuration: 0.8,
     },
 
@@ -117,7 +120,6 @@
 
   function collectFvImageUrls(fv) {
     var urls = [];
-    var isSp = window.matchMedia("(max-width: 767px)").matches;
 
     fv.querySelectorAll("picture").forEach(function (picture) {
       var url = resolvePictureUrl(picture);
@@ -125,15 +127,6 @@
         urls.push(url);
       }
     });
-
-    if (isSp) {
-      fv.querySelectorAll(".fv__layer--fv04-bg img").forEach(function (img) {
-        var src = img.getAttribute("src");
-        if (src) {
-          urls.push(src);
-        }
-      });
-    }
 
     return urls.filter(function (url, index, list) {
       return list.indexOf(url) === index;
@@ -251,15 +244,34 @@
       txtB: fv.querySelector(".fv__layer--txt-b"),
       txtC: fv.querySelector(".fv__layer--txt-c"),
       perspective: fv.querySelector(".fv__layer--perspective"),
+      light: fv.querySelector(".fv__layer--light"),
       txtD: fv.querySelector(".fv__layer--txt-d"),
     };
 
     resetSlidePosition(layers.slideB, layers.wrapB);
     resetSlidePosition(layers.slideC, layers.wrapC);
-    gsap.set(layers.perspective, { y: 40 });
+    var isSpFv = window.matchMedia("(max-width: 767px)").matches;
+    gsap.set(layers.perspective, { y: isSpFv ? 12 : 40 });
+    gsap.set(layers.light, { autoAlpha: 0 });
 
     fv.classList.add("fv--ready");
     showScene(scenes.a);
+
+    // レイアウト確定後にスライド距離を再計算（PC 成り行き高さ対応）
+    window.requestAnimationFrame(function () {
+      refreshFvLayout(layers);
+    });
+
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      if (fv.classList.contains("fv--complete")) {
+        return;
+      }
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(function () {
+        refreshFvLayout(layers);
+      }, 100);
+    });
 
     var tl = gsap.timeline({
       defaults: { ease: FV_EASE.fade },
@@ -322,25 +334,37 @@
       ease: FV_EASE.rise,
     });
 
-    tl.to({}, { duration: FV_TIMING.scene04.delayBeforeText });
+    tl.addLabel("scene04-after-perspective");
+
+    tl.addLabel("scene04-light");
+    tl.to(
+      layers.light,
+      {
+        autoAlpha: 1,
+        duration: FV_TIMING.scene04.lightDuration,
+      },
+      "scene04-after-perspective+=" + FV_TIMING.scene04.delayBeforeLight,
+    );
 
     tl.addLabel("scene04-text");
-    tl.to(layers.txtD, {
-      autoAlpha: 1,
-      duration: FV_TIMING.scene04.textDuration,
-    });
-
-    window.addEventListener("resize", function () {
-      if (!fv.classList.contains("fv--complete")) {
-        resetSlidePosition(layers.slideB, layers.wrapB);
-        resetSlidePosition(layers.slideC, layers.wrapC);
-      }
-    });
+    tl.to(
+      layers.txtD,
+      {
+        autoAlpha: 1,
+        duration: FV_TIMING.scene04.textDuration,
+      },
+      "scene04-after-perspective+=" + FV_TIMING.scene04.delayBeforeText,
+    );
   }
 
   // ─────────────────────────────────────────
   // タイムライン用ヘルパー
   // ─────────────────────────────────────────
+
+  function refreshFvLayout(layers) {
+    resetSlidePosition(layers.slideB, layers.wrapB);
+    resetSlidePosition(layers.slideC, layers.wrapC);
+  }
 
   function showScene(sceneEl) {
     if (!sceneEl) return;
