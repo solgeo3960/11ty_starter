@@ -32,7 +32,8 @@
 
     // Scene 02 / 03（背景横スライド + 縦書きテキスト）
     slideScene: {
-      bgDuration: 4.0, // 背景スライド全体の時間
+      bgDuration: 4.0, // 背景スライド全体の時間（PC）
+      bgDurationSp: 8.0, // 背景スライド全体の時間（スマホ〜767px）
       textDuration: 4.0, // テキストのフェードイン時間
       // テキストが完了する背景の進捗（0〜1）。Figma 指示: 半分くらい
       textCompleteAtBgProgress: 0.5,
@@ -64,6 +65,25 @@
     maxWait: 30000, // 画像待ちタイムアウト（ms）
     hideDuration: 0.8, // ローダー退場（秒）
   };
+
+  var FV_SP_MQ = "(max-width: 767px)";
+
+  function isSpFv() {
+    return window.matchMedia(FV_SP_MQ).matches;
+  }
+
+  function getSlideSceneTiming() {
+    var base = FV_TIMING.slideScene;
+    if (!isSpFv()) {
+      return base;
+    }
+    return {
+      bgDuration:
+        base.bgDurationSp != null ? base.bgDurationSp : base.bgDuration,
+      textDuration: base.textDuration,
+      textCompleteAtBgProgress: base.textCompleteAtBgProgress,
+    };
+  }
 
   // ─────────────────────────────────────────
   // 画像プリロード → アニメーション開始
@@ -250,8 +270,7 @@
 
     resetSlidePosition(layers.slideB, layers.wrapB);
     resetSlidePosition(layers.slideC, layers.wrapC);
-    var isSpFv = window.matchMedia("(max-width: 767px)").matches;
-    gsap.set(layers.perspective, { y: isSpFv ? 12 : 40 });
+    gsap.set(layers.perspective, { y: isSpFv() ? 12 : 40 });
     gsap.set(layers.light, { autoAlpha: 0 });
 
     fv.classList.add("fv--ready");
@@ -407,7 +426,7 @@
    * @param {string} [position=">"] GSAP のタイムライン位置（Scene02/03 は "<" でフェードと同時）
    */
   function addSlideScene(tl, slideBg, textEl, wrapEl, position) {
-    var t = FV_TIMING.slideScene;
+    var t = getSlideSceneTiming();
     var distance = calcSlideDistance(slideBg, wrapEl);
     var startAt = position || ">";
 
