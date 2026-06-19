@@ -221,12 +221,14 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 .fv-loader__progress-bar {
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(196, 173, 130, 0.35) 15%,
-      var(--fv-loader-gold) 50%,
-      rgba(196, 173, 130, 0.35) 85%,
-      transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196, 173, 130, 0.35) 15%,
+    var(--fv-loader-gold) 50%,
+    rgba(196, 173, 130, 0.35) 85%,
+    transparent
+  );
   box-shadow: 0 0 8px rgba(196, 173, 130, 0.35);
   transition: width 0.35s ease-out;
 }
@@ -238,7 +240,6 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 @keyframes fv-loader-pulse {
-
   0%,
   100% {
     opacity: 0.45;
@@ -252,7 +253,6 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 @keyframes fv-loader-core {
-
   0%,
   100% {
     opacity: 0.7;
@@ -270,7 +270,6 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .fv-loader__emblem-orbit,
   .fv-loader__emblem-ring,
   .fv-loader__emblem-core {
@@ -333,13 +332,12 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 }
 
 .fv__layer--aerial,
-.fv__layer--bg02 {
+.fv__layer--bg02{
   picture {
     display: block;
     width: 100%;
     height: auto;
     position: absolute;
-    inset: 0;
     top: 50%;
     transform: translate(0, -50%);
   }
@@ -500,7 +498,7 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 // Scene D: 建物
 .fv__layer--perspective {
   left: 0;
-  top: 0;
+  top:0;
   width: 77.86%;
   height: 100%;
   z-index: 1;
@@ -527,8 +525,7 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   pointer-events: none;
   width: 40.364583333%;
   height: auto;
-
-  img {
+  img{
     height: auto;
   }
 }
@@ -569,7 +566,6 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
 // PC スタイルは上記のまま。タイミング（JS）は共通。
 // ─────────────────────────────────────────────
 @media screen and (max-width: 767px) {
-
   // Scene A
   .fv__layer--aerial {
     inset: 0;
@@ -597,9 +593,9 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
       height: auto;
     }
   }
-
-
-  .fv__scene--a {
+  
+  
+  .fv__scene--a{
     background-image: url(../images/fv/sp_bg.png);
     background-size: cover;
     background-position: center;

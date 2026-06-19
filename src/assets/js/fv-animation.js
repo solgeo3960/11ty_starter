@@ -278,7 +278,7 @@
 
     // レイアウト確定後にスライド距離を再計算（PC 成り行き高さ対応）
     window.requestAnimationFrame(function () {
-      refreshFvLayout(layers);
+      refreshFvLayout(fv, layers);
     });
 
     var resizeTimer;
@@ -288,7 +288,7 @@
       }
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(function () {
-        refreshFvLayout(layers);
+        refreshFvLayout(fv, layers);
       }, 100);
     });
 
@@ -380,9 +380,53 @@
   // タイムライン用ヘルパー
   // ─────────────────────────────────────────
 
-  function refreshFvLayout(layers) {
+  function refreshFvLayout(fv, layers) {
     resetSlidePosition(layers.slideB, layers.wrapB);
     resetSlidePosition(layers.slideC, layers.wrapC);
+    adjustSceneATitlePosition(fv, layers);
+  }
+
+  /**
+   * SP かつ stage 高さ 670px 未満: タイトルが背景と被る分だけ上へずらす
+   */
+  function adjustSceneATitlePosition(fv, layers) {
+    var title = layers.title;
+    var bg02 = layers.bg02;
+
+    gsap.set(title, { y: 0 });
+
+    if (!title || !bg02 || !isSpFv()) {
+      return;
+    }
+
+    var stage = fv.querySelector(".fv__stage");
+    var stageRect = stage ? stage.getBoundingClientRect() : fv.getBoundingClientRect();
+
+    if (stageRect.height >= 730) {
+      return;
+    }
+
+    var bgPicture = bg02.querySelector("picture");
+    if (!bgPicture) {
+      return;
+    }
+
+    var titleRect = title.getBoundingClientRect();
+    var bgRect = bgPicture.getBoundingClientRect();
+
+    if (!titleRect.height) {
+      return;
+    }
+
+    var gap = stageRect.height * 0;
+    var overlap = titleRect.bottom - (bgRect.top - gap);
+    let viewHeight = window.innerHeight;
+    var maxShift = titleRect.height / 2 - (viewHeight * 0.03);
+    var shiftUp = Math.min(overlap, maxShift);
+
+    if (shiftUp > 0) {
+      gsap.set(title, { y: -shiftUp });
+    }
   }
 
   function showScene(sceneEl) {
