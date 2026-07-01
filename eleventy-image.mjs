@@ -11,7 +11,7 @@ export function retinaWidths(layoutWidth) {
 /** @param {string} assetPath */
 export function resolveImageSrc(assetPath) {
 	const normalized = assetPath.replace(/^\//, "");
-	return path.join("src", normalized);
+	return path.join("src", normalized).replace(/\\/g, "/");
 }
 
 /**
