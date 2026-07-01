@@ -1,90 +1,151 @@
-{# 川越 FV — Figma: 川越FV_260605共有 / fv_pc, fv_sp #}
-<section class="fv" id="fv" aria-label="ファーストビュー">
-  <div class="fv__stage">
-
-    {# ── Scene A: 航空写真 → bg02（エリア名含む） → タイトル ── #}
-    <div class="fv__scene fv__scene--a" data-fv-scene="a">
-      <div class="fv__layer fv__layer--aerial">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/scene-a-aerial_sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/scene-a-aerial.jpg' | url }}" alt="" width="1920" height="1080" decoding="async">
-        </picture>
-      </div>
-      <div class="fv__layer fv__layer--bg02">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/scene-a-bg-sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/scene-a-bg02.jpg' | url }}" alt="" width="1920" height="1080" decoding="async">
-        </picture>
-      </div>
-      <div class="fv__layer fv__layer--title">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/title-special_sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/title-special.png' | url }}" alt="川越の「特別」" width="1887" height="243" decoding="async">
-        </picture>  
-      </div>
-      <p class="fv__caption fv__caption--aerial">航空写真</p>
-    </div>
-
-    {# ── Scene B: 背景スライド + 縦書きテキスト ── #}
-    <div class="fv__scene fv__scene--b" data-fv-scene="b" hidden>
-      <div class="fv__slide-wrap" data-fv-slide-wrap>
-        <picture class="fv__slide-bg fv__slide-bg--02" data-fv-slide-bg="02">
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv02-bg_sp.jpg' | url }}">
-          <img src="{{ '/assets/images/fv/fv02-bg.jpg' | url }}" alt="" width="2179" height="1080" decoding="async">
-        </picture>
-      </div>
-      <div class="fv__layer fv__layer--txt fv__layer--txt-b">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-b-sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/txt-b-vertical.png' | url }}" alt="" width="74" height="766" decoding="async">
-        </picture>
-      </div>
-      <p class="fv__caption">Image photo</p>
-    </div>
-
-    {# ── Scene C: 背景スライド + 縦書きテキスト ── #}
-    <div class="fv__scene fv__scene--c" data-fv-scene="c" hidden>
-      <div class="fv__slide-wrap" data-fv-slide-wrap>
-        <picture class="fv__slide-bg fv__slide-bg--03" data-fv-slide-bg="03">
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv03-bg_sp.jpg' | url }}">
-          <img src="{{ '/assets/images/fv/fv03-bg.jpg' | url }}" alt="" width="2179" height="1080" decoding="async">
-        </picture>
-      </div>
-      <div class="fv__layer fv__layer--txt fv__layer--txt-c">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/txt-c-sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/txt-c-vertical.png' | url }}" alt="" width="202" height="823" decoding="async">
-        </picture>
-      </div>
-      <p class="fv__caption">外観完成予定図</p>
-    </div>
-
-    {# ── Scene D: 背景 → 建物 → 光 → テキスト ── #}
-    <div class="fv__scene fv__scene--d" data-fv-scene="d" hidden>
-      <div class="fv__layer fv__layer--fv04-bg" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-bg_sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/fv04-bg.png' | url }}" alt="" width="1920" height="1080" decoding="async">
-        </picture>
-      </div>
-      <div class="fv__layer fv__layer--perspective">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-perspective_sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/fv04-perspective.png' | url }}" alt="" width="1495" height="1080" decoding="async">
-        </picture>
-      </div>
-      <picture class="fv__layer fv__layer--light">
-        <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/FV04_light_sp.png' | url }}">
-        <img src="{{ '/assets/images/fv/FV04_light.png' | url }}" alt="" width="775" height="748" decoding="async">
-      </picture>
-      <div class="fv__layer fv__layer--txt fv__layer--txt-d">
-        <picture>
-          <source media="(max-width: 767px)" srcset="{{ '/assets/images/fv/fv04-text_sp.png' | url }}">
-          <img src="{{ '/assets/images/fv/fv04-text.png' | url }}" alt="" width="221" height="791" decoding="async">
-        </picture>
-      </div>
-      <p class="fv__caption">外観完成予定図</p>
-    </div>
-
-  </div>
-</section>
+{# 川越 FV — Figma: 川越FV_260605共有 / fv_pc, fv_sp #}
+<section class="fv" id="fv" aria-label="ファーストビュー">
+  <div class="fv__stage">
+
+    {# ── Scene A: 航空写真 → bg02（エリア名含む） → タイトル ── #}
+    <div class="fv__scene fv__scene--a" data-fv-scene="a">
+      <div class="fv__layer fv__layer--aerial">
+        {% responsivePicture {
+          pc: "assets/images/fv/scene-a-aerial.jpg",
+          sp: "assets/images/fv/scene-a-aerial_sp.png",
+          alt: "",
+          width: 1920,
+          height: 1080,
+          spWidth: 750
+        } %}
+      </div>
+      <div class="fv__layer fv__layer--bg02">
+        {% responsivePicture {
+          pc: "assets/images/fv/scene-a-bg02.jpg",
+          sp: "assets/images/fv/scene-a-bg-sp.png",
+          alt: "",
+          width: 1920,
+          height: 1080,
+          spWidth: 750
+        } %}
+      </div>
+      <div class="fv__layer fv__layer--title">
+        {% responsivePicture {
+          pc: "assets/images/fv/title-special.png",
+          sp: "assets/images/fv/title-special_sp.png",
+          alt: "川越の「特別」",
+          width: 1887,
+          height: 243,
+          spWidth: 750,
+          sizes: "98vw",
+          spSizes: "92vw"
+        } %}
+      </div>
+      <p class="fv__caption fv__caption--aerial">航空写真</p>
+    </div>
+
+    {# ── Scene B: 背景スライド + 縦書きテキスト ── #}
+    <div class="fv__scene fv__scene--b" data-fv-scene="b" hidden>
+      <div class="fv__slide-wrap" data-fv-slide-wrap>
+        {% responsivePicture {
+          pc: "assets/images/fv/fv02-bg.jpg",
+          sp: "assets/images/fv/fv02-bg_sp.jpg",
+          alt: "",
+          width: 2179,
+          height: 1080,
+          spWidth: 900,
+          class: "fv__slide-bg fv__slide-bg--02",
+          attrs: 'data-fv-slide-bg="02"'
+        } %}
+      </div>
+      <div class="fv__layer fv__layer--txt fv__layer--txt-b">
+        {% responsivePicture {
+          pc: "assets/images/fv/txt-b-vertical.png",
+          sp: "assets/images/fv/txt-b-sp.png",
+          alt: "",
+          width: 74,
+          height: 766,
+          spWidth: 320,
+          sizes: "74px",
+          spSizes: "40vw"
+        } %}
+      </div>
+      <p class="fv__caption">Image photo</p>
+    </div>
+
+    {# ── Scene C: 背景スライド + 縦書きテキスト ── #}
+    <div class="fv__scene fv__scene--c" data-fv-scene="c" hidden>
+      <div class="fv__slide-wrap" data-fv-slide-wrap>
+        {% responsivePicture {
+          pc: "assets/images/fv/fv03-bg.jpg",
+          sp: "assets/images/fv/fv03-bg_sp.jpg",
+          alt: "",
+          width: 2179,
+          height: 1080,
+          spWidth: 900,
+          class: "fv__slide-bg fv__slide-bg--03",
+          attrs: 'data-fv-slide-bg="03"'
+        } %}
+      </div>
+      <div class="fv__layer fv__layer--txt fv__layer--txt-c">
+        {% responsivePicture {
+          pc: "assets/images/fv/txt-c-vertical.png",
+          sp: "assets/images/fv/txt-c-sp.png",
+          alt: "",
+          width: 202,
+          height: 823,
+          spWidth: 320,
+          sizes: "202px",
+          spSizes: "50vw"
+        } %}
+      </div>
+      <p class="fv__caption">外観完成予定図</p>
+    </div>
+
+    {# ── Scene D: 背景 → 建物 → 光 → テキスト ── #}
+    <div class="fv__scene fv__scene--d" data-fv-scene="d" hidden>
+      <div class="fv__layer fv__layer--fv04-bg" aria-hidden="true">
+        {% responsivePicture {
+          pc: "assets/images/fv/fv04-bg.png",
+          sp: "assets/images/fv/fv04-bg_sp.png",
+          alt: "",
+          width: 1920,
+          height: 1080,
+          spWidth: 750
+        } %}
+      </div>
+      <div class="fv__layer fv__layer--perspective">
+        {% responsivePicture {
+          pc: "assets/images/fv/fv04-perspective.png",
+          sp: "assets/images/fv/fv04-perspective_sp.png",
+          alt: "",
+          width: 1495,
+          height: 1080,
+          spWidth: 750,
+          sizes: "78vw",
+          spSizes: "100vw"
+        } %}
+      </div>
+      {% responsivePicture {
+        pc: "assets/images/fv/FV04_light.png",
+        sp: "assets/images/fv/FV04_light_sp.png",
+        alt: "",
+        width: 775,
+        height: 748,
+        spWidth: 400,
+        class: "fv__layer fv__layer--light",
+        sizes: "40vw",
+        spSizes: "55vw"
+      } %}
+      <div class="fv__layer fv__layer--txt fv__layer--txt-d">
+        {% responsivePicture {
+          pc: "assets/images/fv/fv04-text.png",
+          sp: "assets/images/fv/fv04-text_sp.png",
+          alt: "",
+          width: 221,
+          height: 791,
+          spWidth: 320,
+          sizes: "12vw",
+          spSizes: "35vw"
+        } %}
+      </div>
+      <p class="fv__caption">外観完成予定図</p>
+    </div>
+
+  </div>
+</section>

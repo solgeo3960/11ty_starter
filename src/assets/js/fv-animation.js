@@ -128,6 +128,33 @@
     initFvAnimation();
   }
 
+  function pickUrlFromSrcset(srcset) {
+    if (!srcset) {
+      return null;
+    }
+
+    var candidates = srcset.split(",").map(function (part) {
+      var bits = part.trim().split(/\s+/);
+      var url = bits[0];
+      var descriptor = bits[1] || "";
+      var value = 1;
+
+      if (descriptor.slice(-1) === "w") {
+        value = parseInt(descriptor, 10) || 1;
+      } else if (descriptor.slice(-1) === "x") {
+        value = parseFloat(descriptor) || 1;
+      }
+
+      return { url: url, value: value };
+    });
+
+    candidates.sort(function (a, b) {
+      return b.value - a.value;
+    });
+
+    return candidates[0] ? candidates[0].url : null;
+  }
+
   function resolvePictureUrl(picture) {
     var sources = picture.querySelectorAll("source");
     var i;
@@ -135,12 +162,18 @@
     for (i = 0; i < sources.length; i++) {
       var media = sources[i].getAttribute("media");
       if (media && window.matchMedia(media).matches) {
-        return sources[i].getAttribute("srcset");
+        return pickUrlFromSrcset(sources[i].getAttribute("srcset"));
       }
     }
 
     var img = picture.querySelector("img");
-    return img ? img.getAttribute("src") : null;
+    if (!img) {
+      return null;
+    }
+
+    return (
+      pickUrlFromSrcset(img.getAttribute("srcset")) || img.getAttribute("src")
+    );
   }
 
   function collectFvImageUrls(fv) {
