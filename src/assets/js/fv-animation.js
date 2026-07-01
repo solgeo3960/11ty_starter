@@ -32,7 +32,7 @@
 
     // Scene 02 / 03（背景横スライド + 縦書きテキスト）
     slideScene: {
-      bgDuration: 4.0, // 背景スライド全体の時間（PC）
+      bgDuration: 6.0, // 背景スライド全体の時間（PC）
       bgDurationSp: 8.0, // 背景スライド全体の時間（スマホ〜767px）
       textDuration: 4.0, // テキストのフェードイン時間
       // テキストが完了する背景の進捗（0〜1）。Figma 指示: 半分くらい
@@ -50,14 +50,19 @@
       textDuration: 0.8,
     },
 
-    // シーン切り替えのフェード（A→B など）
-    sceneCrossfade: 0.6,
+    // Scene 02→03 / 03→04 のクロスフェード（余韻は fadeOut 系で調整）
+    sceneCrossfade: {
+      fadeOutDuration: 2.0, // 前シーンのフェードアウト（長いほど余韻が残る）
+      fadeInDuration: 2.0, // 次シーンのフェードイン
+    },
   };
 
   var FV_EASE = {
     fade: "none",
     slide: "none",
     rise: "none",
+    crossfadeOut: "power1.in",
+    crossfadeIn: "power2.out",
   };
 
   var FV_LOADER = {
@@ -441,19 +446,35 @@
     gsap.set(sceneEl, { autoAlpha: 0 });
   }
 
-  /** シーン A → B のようなクロスフェード */
-  function addSceneCrossfade(tl, fromScene, toScene, duration) {
+  /** Scene 02→03 / 03→04 などのクロスフェード */
+  function addSceneCrossfade(tl, fromScene, toScene, config) {
+    var fadeOutDuration = config.fadeOutDuration;
+    var fadeInDuration = config.fadeInDuration;
+    var fadeInDelay = config.fadeInDelay || 0;
+    var fadeOutEase = config.fadeOutEase || FV_EASE.crossfadeOut;
+    var fadeInEase = config.fadeInEase || FV_EASE.crossfadeIn;
+    var fadeInPosition = fadeInDelay > 0 ? "<+=" + fadeInDelay : "<";
+
     showScene(toScene);
     gsap.set(toScene, { autoAlpha: 0 });
 
     tl.to(fromScene, {
       autoAlpha: 0,
-      duration: duration,
+      duration: fadeOutDuration,
+      ease: fadeOutEase,
       onComplete: function () {
         hideScene(fromScene);
       },
     });
-    tl.to(toScene, { autoAlpha: 1, duration: duration }, "<");
+    tl.to(
+      toScene,
+      {
+        autoAlpha: 1,
+        duration: fadeInDuration,
+        ease: fadeInEase,
+      },
+      fadeInPosition,
+    );
   }
 
   /** 前シーンをフェードアウト済みのとき、次シーンだけフェードイン */
