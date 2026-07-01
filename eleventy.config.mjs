@@ -23,4 +23,6 @@ export const config = {
 		data: "_data",
 		output: "_site",
 	},
+	/** staging: https://pretest.sumitomo-rd-mansion.jp/shuto/kawagoe/ */
+	pathPrefix: "/shuto/kawagoe/",
 };

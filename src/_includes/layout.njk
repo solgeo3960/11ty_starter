@@ -15,13 +15,16 @@ title: "{{ site.name }}"
     <meta property="og:image" content="{{ site.ogImage | url }}">
     {% endif %}
     <meta property="og:type" content="website">
+    {% if site.url %}
+    <meta property="og:url" content="{{ site.url | url }}">
+    {% endif %}
     <link rel="stylesheet" href="{{ '/assets/font/fontawesome/css/all.css' | url }}">
     <link rel="stylesheet" href="{{ '/assets/css/slick.css' | url }}">
     <link rel="stylesheet" href="{{ '/assets/css/slick-theme.css' | url }}">
     <link rel="stylesheet" href="{{ '/assets/css/reset.css' | url }}">
     <link rel="stylesheet" href="{{ '/assets/css/common.css' | url }}">
     {% if css %}
-    <link rel="stylesheet" href="{{ '/assets/css/' + css + '.css' | url }}">
+    <link rel="stylesheet" href="{{ ('/assets/css/' + css + '.css') | url }}">
     {% endif %}
   </head>
   <body{% if bodyId %} id="{{ bodyId }}"{% endif %}>
@@ -35,7 +38,7 @@ title: "{{ site.name }}"
     <script src="{{ '/assets/js/vendor/gsap.min.js' | url }}"></script>
     <script src="{{ '/assets/js/vendor/ScrollTrigger.min.js' | url }}"></script>
     {% if js %}
-    <script src="{{ '/assets/js/' + js + '.js' | url }}"></script>
+    <script src="{{ ('/assets/js/' + js + '.js') | url }}"></script>
     {% endif %}
     <script src="{{ '/assets/js/app.js' | url }}" defer></script>
   </body>

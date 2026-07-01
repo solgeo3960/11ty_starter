@@ -610,12 +610,18 @@ $floader-hishimon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/
   }
 
   // Scene B/C: スライド背景 — 高さいっぱい・画像比率に合わせた幅
-  .fv__slide-bg--02,
+  .fv__slide-bg--02 {
+    display: block;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 900 / 776; // fv02-bg_sp.jpg（1800×1552）
+  }
+
   .fv__slide-bg--03 {
     display: block;
     height: 100%;
     width: auto;
-    aspect-ratio: 900 / 776;
+    aspect-ratio: 1800 / 1373; // fv03-bg_sp.jpg（1800×1552）
   }
 
   .fv__slide-bg--02 img,
